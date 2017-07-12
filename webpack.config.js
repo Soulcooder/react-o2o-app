@@ -19,10 +19,9 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				exclude: '/node_modules',
-				use: [
-					'babel-loader'
-				]
+				/*在babel配置是遇到问题，安装antd时是不能添加exclude：node_module的，因为会
+				将antd的包排除在外*/
+				use: ['babel-loader']
 			},
 			{
 				test: /\.css$/,
@@ -30,7 +29,6 @@ module.exports = {
 				use: [
 					'style-loader', 
 					'css-loader', 
-					'postcss-loader'
 				]
 			},
 			{
@@ -39,7 +37,6 @@ module.exports = {
 			}
 		]
 	},
-
 	plugins: [
 		/*针对给定路径的html文件， webpack通过这个插件
 		对该html插件做js和css的代码的自动添加*/
@@ -53,13 +50,6 @@ module.exports = {
 		}),
 		new Webpack.DefinePlugin({
 			__DEV__: JSON.stringify(JSON.parse(process.env.NODE_ENV == 'dev') || false)
-		}),
-		new Webpack.LoaderOptionsPlugin({
-			options: {
-				postcss: function (){
-					return [precss, autoprefixer];
-				}
-			}
 		})
 	],
 	devServer: {
